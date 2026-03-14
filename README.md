@@ -72,6 +72,28 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
+## GitHub Pages
+
+This repo is configured for publishing the built browser bundle to GitHub Pages.
+
+Build with GitHub Pages base path:
+
+```bash
+npm run build:github-pages
+```
+
+Deploy to GitHub Pages (publishes `dist/angular-microfrontend-boilerplate/browser`):
+
+```bash
+npm run deploy:github-pages
+```
+
+Open project URL in browser:
+
+```bash
+npm run open:github-project
+```
+
 ## Running unit tests
 
 To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:

@@ -36,18 +36,11 @@
                 ↻
               </button>
               <button
+                *ngIf="tab.id !== 'home'"
                 type="button"
-                class="rounded border px-1.5 py-0.5 text-xs transition"
-                [class.border-slate-500/40]="tab.id === 'home'"
-                [class.bg-slate-500/10]="tab.id === 'home'"
-                [class.text-slate-300/50]="tab.id === 'home'"
-                [class.cursor-not-allowed]="tab.id === 'home'"
-                [class.border-rose-300/40]="tab.id !== 'home'"
-                [class.bg-rose-500/10]="tab.id !== 'home'"
-                [class.text-rose-100]="tab.id !== 'home'"
+                class="rounded border border-rose-300/40 bg-rose-500/10 px-1.5 py-0.5 text-xs text-rose-100 transition"
                 aria-label="Close tab"
                 title="Close"
-                [disabled]="tab.id === 'home'"
                 (click)="closeTab(i, $event)">
                 ✕
               </button>
