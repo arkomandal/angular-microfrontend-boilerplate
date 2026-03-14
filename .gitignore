@@ -1,7 +1,7 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
-/dist
+# /dist is intentionally tracked for GitHub Pages deployment artifacts.
 /tmp
 /out-tsc
 /bazel-out
