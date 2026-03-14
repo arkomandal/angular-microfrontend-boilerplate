@@ -1,5 +1,5 @@
 {
   "routes": {
-    "/angular-microfrontend-boilerplate": {}
+    "/angular-microfrontend-boilerplate/dist/angular-microfrontend-boilerplate/browser": {}
   }
 }

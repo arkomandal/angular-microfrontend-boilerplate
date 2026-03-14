@@ -19,6 +19,8 @@
     "build:all": "ng build angular-microfrontend-boilerplate && ng build child1 && ng build child2",
     "build:github-pages": "ng build --base-href /angular-microfrontend-boilerplate/",
     "build:github-pages:all": "npm run build:github-pages && ng build child1 && ng build child2",
+    "build:projects-site": "ng build angular-microfrontend-boilerplate --base-href /angular-microfrontend-boilerplate/dist/angular-microfrontend-boilerplate/browser/",
+    "build:projects-site:all": "npm run build:projects-site && ng build child1 && ng build child2",
     "deploy:github-pages": "npm run build:github-pages && npx gh-pages -d dist/angular-microfrontend-boilerplate/browser",
     "release:github-pages": "npm run build:github-pages && npm run deploy:github-pages",
     "open:github-project": "open https://arkomandal.github.io/angular-microfrontend-boilerplate",
