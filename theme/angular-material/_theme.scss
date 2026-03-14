@@ -1,0 +1,26 @@
+/* Shared Material-like design tokens and utility classes for all apps. */
+
+:root {
+  --mf-color-primary: #0b63ce;
+  --mf-color-primary-contrast: #ffffff;
+  --mf-color-accent: #00a36c;
+  --mf-color-warn: #c0392b;
+  --mf-surface: #ffffff;
+  --mf-surface-alt: #f5f7fb;
+  --mf-text: #1f2937;
+}
+
+.mf-surface {
+  background: var(--mf-surface);
+  color: var(--mf-text);
+}
+
+.mf-surface-alt {
+  background: var(--mf-surface-alt);
+  color: var(--mf-text);
+}
+
+.mf-button-primary {
+  background: var(--mf-color-primary);
+  color: var(--mf-color-primary-contrast);
+}
