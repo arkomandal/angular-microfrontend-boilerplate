@@ -16,6 +16,6 @@ export default `<!doctype html>
     var ngJitMode = false;
   </script>
   <app-root></app-root>
-<script type="module" src="polyfills-5CFQRCPP.js"></script><script type="module-shim" src="main-SQ2HVWDF.js"></script></body>
+<script type="module" src="polyfills-5CFQRCPP.js"></script><script type="module-shim" src="main-7SNWBXYP.js"></script></body>
 </html>
 `;

@@ -18,6 +18,6 @@ export default `<!doctype html>
     var ngJitMode = false;
   </script>
   <app-root></app-root>
-<link rel="modulepreload" href="chunk-2NFLSA4Y.js"><script type="module" src="polyfills-G7GBCUTJ.js"></script><script type="module-shim" src="main-73SEGQJ4.js"></script></body>
+<link rel="modulepreload" href="chunk-2NFLSA4Y.js"><script type="module" src="polyfills-G7GBCUTJ.js"></script><script type="module-shim" src="main-QQQ2BGC2.js"></script></body>
 </html>
 `;
