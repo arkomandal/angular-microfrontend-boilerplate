@@ -1,0 +1,4 @@
+import { Attribute, EventContract, EventContractContainer, EventDispatcher, EventInfoWrapper, EventPhase, bootstrapAppScopedEarlyEventContract, clearAppScopedEarlyEventContract, getAppScopedQueuedEventInfos, getDefaulted, isCaptureEventType, isEarlyEventType, registerAppScopedDispatcher, registerDispatcher$1, removeAllAppScopedEventListeners } from "@nf-internal/chunk-4ZQVFAGS";
+import "@nf-internal/chunk-WXPTAMPH";
+export { Attribute, EventContract, EventContractContainer, EventDispatcher, EventInfoWrapper, EventPhase, bootstrapAppScopedEarlyEventContract, clearAppScopedEarlyEventContract, getDefaulted as getActionCache, getAppScopedQueuedEventInfos, isCaptureEventType, isEarlyEventType, registerAppScopedDispatcher, registerDispatcher$1 as registerDispatcher, removeAllAppScopedEventListeners };
+//# sourceMappingURL=_angular_core_primitives_event_dispatch.vERk0aIIJe-dev.js.map
