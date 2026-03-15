@@ -10,7 +10,7 @@ const angularGlobals = globalThis as {
 angularGlobals.ngDevMode ??= false;
 angularGlobals.ngJitMode ??= false;
 
-function getRuntimeManifest() {
+async function getRuntimeManifest() {
   const repoName = 'angular-microfrontend-boilerplate';
   const pathParts = window.location.pathname.split('/').filter(Boolean);
   const origin = window.location.origin;
@@ -20,19 +20,40 @@ function getRuntimeManifest() {
     remote2: `${origin}${prefix}/child2/browser/remoteEntry.json`
   });
 
+  const probeRemotes = async (prefix: string) => {
+    const remotes = buildRemotes(prefix);
+
+    try {
+      const [remote1Res, remote2Res] = await Promise.all([
+        fetch(remotes.remote1, { method: 'HEAD', cache: 'no-store' }),
+        fetch(remotes.remote2, { method: 'HEAD', cache: 'no-store' })
+      ]);
+
+      return remote1Res.ok && remote2Res.ok;
+    } catch {
+      return false;
+    }
+  };
+
   // Static hosting pattern: /<prefix>/<host-app>/browser/
   // Example: /angular-microfrontend-boilerplate/browser/ (local dist root)
   // Example: /project/dist/angular-microfrontend-boilerplate/browser/ (deployed)
+  const candidatePrefixes: string[] = [];
+  const addPrefix = (prefix: string) => {
+    if (!candidatePrefixes.includes(prefix)) {
+      candidatePrefixes.push(prefix);
+    }
+  };
+
   const browserIndex = pathParts.lastIndexOf('browser');
   if (browserIndex > 0 && pathParts[browserIndex - 1] === repoName) {
     const sharedPrefixParts = pathParts.slice(0, browserIndex - 1);
-    const sharedPrefix = sharedPrefixParts.length > 0 ? `/${sharedPrefixParts.join('/')}` : '';
-    return buildRemotes(sharedPrefix);
+    addPrefix(sharedPrefixParts.length > 0 ? `/${sharedPrefixParts.join('/')}` : '');
   }
 
-  // GitHub Pages (repo root): /<repo>/
+  // GitHub Pages repo path and custom-domain root fallback.
   if (browserIndex === -1 && pathParts[0] === repoName) {
-    return buildRemotes(`/${repoName}`);
+    addPrefix(`/${repoName}`);
   }
 
   const isLocalhost =
@@ -54,15 +75,24 @@ function getRuntimeManifest() {
 
   // For deployments like /<project>/dist/<host>/browser/, build same-origin remote URLs.
   if (distIndex >= 0) {
-    const distBasePath = `/${pathParts.slice(0, distIndex + 1).join('/')}`;
-    return buildRemotes(distBasePath);
+    addPrefix(`/${pathParts.slice(0, distIndex + 1).join('/')}`);
+  }
+
+  addPrefix(`/${repoName}`);
+  addPrefix('');
+
+  for (const prefix of candidatePrefixes) {
+    if (await probeRemotes(prefix)) {
+      return buildRemotes(prefix);
+    }
   }
 
   // Default to same-origin remotes for static hosting from arbitrary origins/paths.
   return buildRemotes('');
 }
 
-initFederation(getRuntimeManifest())
+getRuntimeManifest()
+  .then((manifest) => initFederation(manifest))
   .catch((err) => console.error(err))
   .then(() => import('./bootstrap'))
   .catch((err) => console.error(err));
