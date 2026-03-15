@@ -40,10 +40,16 @@ function getRuntimeManifest() {
     window.location.hostname === '127.0.0.1' ||
     window.location.hostname === '[::1]';
 
-  // Local development uses the checked-in manifest with localhost remotes.
+  // Local `ng serve` host stays on 4200 and uses the checked-in localhost remotes.
+  // Static local servers (e.g. http-server on dist/gh-pages) should use same-origin remotes.
   if (isLocalhost) {
-    return './federation.manifest.json';
+    if (window.location.port === '4200') {
+      return './federation.manifest.json';
+    }
+
+    return buildRemotes('');
   }
+
   const distIndex = pathParts.indexOf('dist');
 
   // For deployments like /<project>/dist/<host>/browser/, build same-origin remote URLs.
@@ -52,8 +58,8 @@ function getRuntimeManifest() {
     return buildRemotes(distBasePath);
   }
 
-  // Fallback to relative manifest if the app is hosted under a different structure.
-  return './federation.manifest.json';
+  // Default to same-origin remotes for static hosting from arbitrary origins/paths.
+  return buildRemotes('');
 }
 
 initFederation(getRuntimeManifest())

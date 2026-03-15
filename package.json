@@ -20,7 +20,7 @@
     "build:all": "ng build angular-microfrontend-boilerplate && ng build child1 && ng build child2",
     "build:local-static": "ng build angular-microfrontend-boilerplate --base-href /angular-microfrontend-boilerplate/browser/",
     "build:local-static:all": "npm run build:local-static && ng build child1 && ng build child2 && npm run sanitize:federation:dist",
-    "build:github-pages": "ng build --base-href /angular-microfrontend-boilerplate/",
+    "build:github-pages": "ng build angular-microfrontend-boilerplate --base-href ./",
     "build:github-pages:all": "npm run build:github-pages && ng build child1 && ng build child2 && npm run sanitize:federation:dist && npm run stage:github-pages",
     "build:projects-site": "ng build angular-microfrontend-boilerplate --base-href /angular-microfrontend-boilerplate/dist/angular-microfrontend-boilerplate/browser/",
     "build:projects-site:all": "npm run build:projects-site && ng build child1 && ng build child2 && npm run sanitize:federation:dist",
