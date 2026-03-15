@@ -1,0 +1,4 @@
+@use '../theme/angular-material/theme' as *;
+@use '../theme/tailwind/theme' as *;
+
+/* App-level globals can live below shared root theme imports. */
