@@ -58,8 +58,8 @@ function getRuntimeManifest() {
     return buildRemotes(distBasePath);
   }
 
-  // Fallback to relative manifest if the app is hosted under a different structure.
-  return './federation.manifest.json';
+  // Default to same-origin remotes for static hosting from arbitrary origins/paths.
+  return buildRemotes('');
 }
 
 initFederation(getRuntimeManifest())
