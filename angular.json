@@ -145,45 +145,19 @@
         "build": {
           "builder": "@angular-architects/native-federation:build",
           "options": {
-            "browser": "projects/child1/src/main.ts",
-            "server": "projects/child1/src/main.server.ts",
-            "polyfills": [
-              "zone.js"
-            ],
-            "tsConfig": "projects/child1/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "projects/child1/public"
-              }
-            ],
+            "ssr": true,
             "styles": [
               "theme/tailwind/tailwind.css",
               "projects/child1/src/styles.scss"
-            ],
-            "ssr": true
+            ]
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
-              ],
-              "outputHashing": "all"
+              "target": "child1:esbuild:production"
             },
             "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
+              "target": "child1:esbuild:development",
+              "dev": true
             }
           },
           "defaultConfiguration": "production"
@@ -217,52 +191,31 @@
             ]
           }
         },
-        "serve-original": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "child1:build:production"
-            },
-            "development": {
-              "buildTarget": "child1:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        }
-      }
-    },
-    "child2": {
-      "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
-      "root": "projects/child2",
-      "sourceRoot": "projects/child2/src",
-      "prefix": "app",
-      "architect": {
-        "build": {
-          "builder": "@angular-architects/native-federation:build",
+        "esbuild": {
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "browser": "projects/child2/src/main.ts",
-            "server": "projects/child2/src/main.server.ts",
+            "browser": "projects/child1/src/main.ts",
+            "server": "projects/child1/src/main.server.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "projects/child2/tsconfig.app.json",
+            "tsConfig": "projects/child1/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/child2/public"
+                "input": "projects/child1/public"
               }
             ],
             "styles": [
               "theme/tailwind/tailwind.css",
-              "projects/child2/src/styles.scss"
+              "projects/child1/src/styles.scss"
             ],
-            "ssr": true
+            "outputMode": "server",
+            "ssr": {
+              "entry": "projects/child1/src/server.ts"
+            },
+            "prerender": false
           },
           "configurations": {
             "production": {
@@ -284,6 +237,51 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-original": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "child1:esbuild:production"
+            },
+            "development": {
+              "buildTarget": "child1:esbuild:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    },
+    "child2": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/child2",
+      "sourceRoot": "projects/child2/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {
+            "ssr": true,
+            "styles": [
+              "theme/tailwind/tailwind.css",
+              "projects/child2/src/styles.scss"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "target": "child2:esbuild:production"
+            },
+            "development": {
+              "target": "child2:esbuild:development",
+              "dev": true
             }
           },
           "defaultConfiguration": "production"
@@ -317,14 +315,64 @@
             ]
           }
         },
+        "esbuild": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "browser": "projects/child2/src/main.ts",
+            "server": "projects/child2/src/main.server.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "projects/child2/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/child2/public"
+              }
+            ],
+            "styles": [
+              "theme/tailwind/tailwind.css",
+              "projects/child2/src/styles.scss"
+            ],
+            "outputMode": "server",
+            "ssr": {
+              "entry": "projects/child2/src/server.ts"
+            },
+            "prerender": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
         "serve-original": {
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "child2:build:production"
+              "buildTarget": "child2:esbuild:production"
             },
             "development": {
-              "buildTarget": "child2:build:development"
+              "buildTarget": "child2:esbuild:development"
             }
           },
           "defaultConfiguration": "development"

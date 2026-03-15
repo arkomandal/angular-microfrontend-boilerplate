@@ -74,14 +74,26 @@ export class App {
     try {
       // The remote name is constrained to a known union, so dynamic import is safe.
       const m = await import(/* @vite-ignore */ `${name}/Component`);
+      const resolvedComponent =
+        m.App ??
+        m.default ??
+        Object.values(m).find((value: unknown): value is Type<any> => {
+          return !!value && typeof value === 'function' && !!(value as { ɵcmp?: unknown }).ɵcmp;
+        });
+
+      if (!resolvedComponent) {
+        throw new Error(`No Angular component export found in ${name}/Component`);
+      }
+
       this.remoteComps.update((current) => ({
         ...current,
-        [name]: m.App
+        [name]: resolvedComponent
       }));
     } catch (e) {
+      const message = e instanceof Error ? e.message : String(e);
       this.errorByRemote.update((state) => ({
         ...state,
-        [name]: `Failed to load ${this.labels[name]}.`
+        [name]: `Failed to load ${this.labels[name]}: ${message}`
       }));
       console.error('failed to load remote', e);
     } finally {

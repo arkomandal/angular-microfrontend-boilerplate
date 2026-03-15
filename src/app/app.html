@@ -78,8 +78,8 @@
                 </button>
               </div>
 
-              <div *ngIf="!loadingFor(tab.id) && !errorFor(tab.id) && remoteCompFor(tab.id)" class="h-full min-h-0 rounded-xl border border-white/15 bg-slate-950/60 p-3 backdrop-blur-lg">
-                <div class="h-full overflow-y-auto">
+              <div *ngIf="!loadingFor(tab.id) && !errorFor(tab.id) && remoteCompFor(tab.id)" class="rounded-xl border border-white/15 bg-slate-950/60 p-3 backdrop-blur-lg">
+                <div class="overflow-y-auto">
                   <ng-container *ngComponentOutlet="remoteCompFor(tab.id)"></ng-container>
                 </div>
               </div>
