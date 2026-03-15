@@ -1,6 +1,6 @@
 
 export default {
-  basePath: '/angular-microfrontend-boilerplate',
+  basePath: '.',
   allowedHosts: [],
   supportedLocales: {
   "en-US": ""
